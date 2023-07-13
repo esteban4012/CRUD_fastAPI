@@ -120,3 +120,16 @@ async def delete_order(id: int):
     return data_orders
 
 
+# CRUD ARTICLE
+
+
+data_article = {
+    "articulo" : {
+        1 : Article(id=1,description="comedor",price=1000000,id_category=1)
+    }
+}
+
+@app.get("/article", tags=["article"])
+async def read_article():
+    return data_article
+
