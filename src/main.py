@@ -162,3 +162,13 @@ async def edit_article(id : int , article : Article):
     edit.price = article.price
     edit.id_category = article.id_category
     return edit
+
+
+@app.delete("/article/{id}", tags=["article"])
+async def delete_article(id: int):
+    articles = data_article["article"]
+    if id not in articles:
+        return HTTPException(status_code=404,detail=f"orden with {id=}, does not exist")
+    
+    articles.pop(id)
+    return data_article
