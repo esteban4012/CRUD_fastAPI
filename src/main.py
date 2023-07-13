@@ -124,7 +124,7 @@ async def delete_order(id: int):
 
 
 data_article = {
-    "articulo" : {
+    "article" : {
         1 : Article(id=1,description="comedor",price=1000000,id_category=1)
     }
 }
@@ -133,3 +133,9 @@ data_article = {
 async def read_article():
     return data_article
 
+
+@app.post("/article", tags=["article"])
+async def create_article(articles : Article):
+    article = data_article["article"]
+    article[articles.id] = articles
+    return data_article
