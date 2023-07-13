@@ -54,3 +54,12 @@ async def edit_clients(id : int, client: Client):
     edit.tel = client.tel
     edit.email = client.email
     return edit
+
+
+@app.delete("/clients/{id}", tags=['clients'])
+async def delete_client(id: int):
+    client = data_clients["client"]
+    if id not in client:
+        return HTTPException(status_code=404 , detail= f"client with {id=}, does not exist")
+    client.pop(id)
+    return data_clients 
