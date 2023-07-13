@@ -16,7 +16,7 @@ class Article(BaseModel):
     price : float
     id_category : int
 
-class Articulos_entity(db.Base):
+class Article_entity(db.Base):
 
     __tablename__ = "items"
 
