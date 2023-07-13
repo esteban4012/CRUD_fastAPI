@@ -193,3 +193,20 @@ async def create_category(category : Category):
     categorys = data_category["category"]
     categorys[category.id] = category
     return data_category
+
+
+@app.put("/category/{id}", tags=["category"])
+async def edit_category(id : int, category: Category):
+    categorys = data_category["category"]
+    if id not in categorys:
+        return HTTPException(status_code=404,detail=f"category with {id=}, does not exist")
+    
+    if category.id < 1:
+        return HTTPException(status_code=404, detail="id is mandatory")
+    
+    if len(category.description.strip()) < 1:
+        return HTTPException(status_code=404, detail="description can not be empty")
+    
+    edit = categorys[id]
+    edit.description = category.description
+    return edit
