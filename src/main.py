@@ -186,3 +186,10 @@ data_category = {
 @app.get("/category", tags=["category"])
 async def read_category():
     return data_category
+
+
+@app.post("/category", tags=["category"])
+async def create_category(category : Category):
+    categorys = data_category["category"]
+    categorys[category.id] = category
+    return data_category
