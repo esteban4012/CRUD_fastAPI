@@ -3,7 +3,7 @@ from models.client import Client
 from models.orders import Orders
 from models.article import Article
 from models.category import Category
-
+import repository.repository_client
 
 app = FastAPI()
 
@@ -20,7 +20,7 @@ data_clients = {
 
 @app.get("/clients", tags=['clients'])
 async def read_clients():
-    return data_clients
+    return repository.repository_client.fech_clients()
 
 
 @app.post("/clients", tags=['clients'])
