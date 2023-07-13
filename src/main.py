@@ -4,6 +4,8 @@ from models.orders import Orders
 from models.article import Article
 from models.category import Category
 import repository.repository_client
+import repository.repository_category
+
 
 app = FastAPI()
 
@@ -185,7 +187,7 @@ data_category = {
 
 @app.get("/category", tags=["category"])
 async def read_category():
-    return data_category
+    return repository.repository_category.fech_category()
 
 
 @app.post("/category", tags=["category"])
