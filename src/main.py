@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from models.client import Client
 from models.orders import Orders
+from models.article import Article
 
 
 app = FastAPI()
@@ -109,3 +110,13 @@ async def edit_orders(id : int , ordens : Orders):
     edit.id_client = ordens.id_client
     return edit
     
+
+@app.delete("/orders/{id}", tags=["orders"])
+async def delete_order(id: int):
+    order = data_orders["orders"]
+    if id not in order:
+        return HTTPException(status_code=404,detail=f"client with {id=}, does not exist")
+    order.pop(id)
+    return data_orders
+
+
