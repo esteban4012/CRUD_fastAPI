@@ -9,7 +9,7 @@ def to_articulo_entity(articulo: Article):
                             category_id=articulo.id_category)
 
 
-def fech_articulo():
+def fech_article():
     entities = session.query(Article_entity)
     models = []
     for entity in entities:

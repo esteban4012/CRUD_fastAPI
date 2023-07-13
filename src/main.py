@@ -5,7 +5,7 @@ from models.article import Article
 from models.category import Category
 import repository.repository_client
 import repository.repository_category
-
+import repository.repository_article
 
 app = FastAPI()
 
@@ -134,7 +134,7 @@ data_article = {
 
 @app.get("/article", tags=["article"])
 async def read_article():
-    return data_article
+    return repository.repository_article.fech_article()
 
 
 @app.post("/article", tags=["article"])
