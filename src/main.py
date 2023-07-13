@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from models.client import Client
 from models.orders import Orders
 from models.article import Article
+from models.category import Category
 
 
 app = FastAPI()
@@ -172,3 +173,16 @@ async def delete_article(id: int):
     
     articles.pop(id)
     return data_article
+
+
+# CRUD CATEGORY
+
+data_category = {
+    "category" : {
+        1 : Category(id=1, description="salas")
+}}
+
+
+@app.get("/category", tags=["category"])
+async def read_category():
+    return data_category
