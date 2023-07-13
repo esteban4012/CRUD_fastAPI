@@ -38,17 +38,17 @@ async def edit_clients(id : int, client: Client):
     if len(client.name.strip()) < 1:
         return HTTPException(status_code=404, detail=" name can not be emptyd")
     if len(client.last_name.strip()) < 1:
-        return HTTPException(status_code=404, detail="name can not be emptyd")
+        return HTTPException(status_code=404, detail="last_name can not be emptyd")
     if len(client.sure_name.strip()) < 1:
-        return HTTPException(status_code=404, detail="name can not be emptyd")
+        return HTTPException(status_code=404, detail="sure_name can not be emptyd")
     if client.num_id < 1:
-        return HTTPException(status_code=404, detail="id_mum is mandatory")
+        return HTTPException(status_code=404, detail="num_id is mandatory")
     if len(client.addres.strip()) < 1:
-        return HTTPException(status_code=404, detail="name can not be emptyd")
+        return HTTPException(status_code=404, detail="addres can not be emptyd")
     if client.tel < 1:  
         return HTTPException(status_code=404, detail="tel is mandatory")
     if len(client.email.strip()) < 1:
-        return HTTPException(status_code=404, detail="name can not be emptyd")
+        return HTTPException(status_code=404, detail="email can not be emptyd")
     
     edit.name = client.name
     edit.last_name = client.last_name
@@ -84,6 +84,28 @@ async def read_orders():
 
 @app.post("/orders", tags=["orders"])
 async def create_orders(orderns : Orders):
-    orden = data_orders["orders"]
-    orden[orderns.id] = orderns
+    order = data_orders["orders"]
+    order[orderns.id] = orderns
     return data_orders 
+
+
+@app.put("/orders/{id}", tags=["orders"])
+async def edit_orders(id : int , ordens : Orders):
+    order = data_orders["orders"]
+    if id not in order:
+        return HTTPException(status_code=404,detail=f"order with {id=}, does not exist")
+    
+    edit = order[id]
+    if ordens.id < 1:
+        return HTTPException(status_code=404, detail="id is mandatory")
+    
+    if len(ordens.date.strip()) < 1:
+        return HTTPException(status_code=404, detail="date can not be emptyd")
+    
+    if ordens.id_client < 1:
+        return HTTPException(status_code=404, detail="id_client is mandatory")
+    
+    edit.date = ordens.date
+    edit.id_client = ordens.id_client
+    return edit
+    
