@@ -139,3 +139,26 @@ async def create_article(articles : Article):
     article = data_article["article"]
     article[articles.id] = articles
     return data_article
+
+
+@app.put("/article/{id}", tags=["article"])
+async def edit_article(id : int , article : Article):
+    articles = data_article["article"]
+    if id not in articles:
+        return HTTPException(status_code=404,detail=f"orden with {id=}, does not exist")
+    
+    if  article.id < 1:
+        return HTTPException(status_code=404, detail="id is mandatory")
+    if len(article.description.strip()) < 1:
+        return HTTPException(status_code=404, detail="description can not be emptyd")
+    if article.price < 1:
+        return HTTPException(status_code=404, detail="price is mandatory")
+    if article.id_category < 1:
+        return HTTPException(status_code=404, detail="id_category is mandatory")
+    
+    edit = articles[id]
+    
+    edit.description = article.description
+    edit.price = article.price
+    edit.id_category = article.id_category
+    return edit
