@@ -1,8 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from models.client import Client
+from models.orders import Orders
 
 
 app = FastAPI()
+
+
+# CRUD CLIENT
 
 data_clients = {
     "client" : {
@@ -63,3 +67,16 @@ async def delete_client(id: int):
         return HTTPException(status_code=404 , detail= f"client with {id=}, does not exist")
     client.pop(id)
     return data_clients 
+
+
+# CRUD ORDERS
+
+data_orders = {
+    "orders" : {
+        1 : Orders(id = 1 ,date= "2023-07-12", id_client = 1 )
+    }
+}
+
+@app.get("/orders", tags=["orders"])
+async def read_orders():
+    return data_orders["orders"]
