@@ -80,3 +80,10 @@ data_orders = {
 @app.get("/orders", tags=["orders"])
 async def read_orders():
     return data_orders["orders"]
+
+
+@app.post("/orders", tags=["orders"])
+async def create_orders(orderns : Orders):
+    orden = data_orders["orders"]
+    orden[orderns.id] = orderns
+    return data_orders 
