@@ -11,6 +11,15 @@ data_clients = {
     }   
 }
 
+
 @app.get("/clients", tags=['clients'])
 async def read_clients():
     return data_clients
+
+
+@app.post("/clients", tags=['clients'])
+async def create_client(client: Client):
+    clients = data_clients["client"]
+    clients[client.id] = client
+    return data_clients["client"]
+
