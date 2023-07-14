@@ -13,3 +13,7 @@ def fech_category():
     for entity in entities:
         models.append(entity)
     return models
+
+def add_category(category: Category_entity):
+    session.add(category)
+    session.commit()
