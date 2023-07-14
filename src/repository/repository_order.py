@@ -17,3 +17,10 @@ def fech_orders():
 def add_order(order: Orders_entity):
     session.add(order)
     session.commit()
+
+def delete_order(id: int):
+    order = session.query(Orders_entity).get(id)
+    if order is None:
+        raise Exception(f"order {id=} not does exist")
+    session.delete(order)
+    session.commit()
