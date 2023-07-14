@@ -38,34 +38,7 @@ async def create_client(client: Client):
 
 @app.put("/clients/{id}", tags=["clients"])
 async def edit_clients(id : int, client: Client):
-    clients = data_clients["client"]
-    if  id not in clients:
-        return HTTPException(status_code=404, detail=f"client with {id=} does not exist")
-
-    edit = clients[id]
-    if len(client.name.strip()) < 1:
-        return HTTPException(status_code=404, detail=" name can not be emptyd")
-    if len(client.last_name.strip()) < 1:
-        return HTTPException(status_code=404, detail="last_name can not be emptyd")
-    if len(client.sure_name.strip()) < 1:
-        return HTTPException(status_code=404, detail="sure_name can not be emptyd")
-    if client.num_id < 1:
-        return HTTPException(status_code=404, detail="num_id is mandatory")
-    if len(client.addres.strip()) < 1:
-        return HTTPException(status_code=404, detail="addres can not be emptyd")
-    if client.tel < 1:  
-        return HTTPException(status_code=404, detail="tel is mandatory")
-    if len(client.email.strip()) < 1:
-        return HTTPException(status_code=404, detail="email can not be emptyd")
-    
-    edit.name = client.name
-    edit.last_name = client.last_name
-    edit.sure_name = client.sure_name
-    edit.num_id = client.num_id
-    edit.addres = client.addres
-    edit.tel = client.tel
-    edit.email = client.email
-    return edit
+    return repository.repository_client.update_client(id,client)
 
 
 @app.delete("/clients/{id}", tags=["clients"])
@@ -101,7 +74,10 @@ async def create_orders(order : Orders):
 
 @app.put("/orders/{id}", tags=["orders"])
 async def edit_orders(id : int , ordens : Orders):
+    
+    
     order = data_orders["orders"]
+    
     if id not in order:
         return HTTPException(status_code=404,detail=f"order with {id=}, does not exist")
     
@@ -206,20 +182,6 @@ async def create_category(category : Category):
 async def edit_category(id : int, category: Category):
     return repository.repository_category.update_category(id,category)
     
-    # categorys = data_category["category"]
-    # if id not in categorys:
-    #     return HTTPException(status_code=404,detail=f"category with {id=}, does not exist")
-    
-    # if category.id < 1:
-    #     return HTTPException(status_code=404, detail="id is mandatory")
-    
-    # if len(category.description.strip()) < 1:
-    #     return HTTPException(status_code=404, detail="description can not be empty")
-    
-    # edit = categorys[id]
-    # edit.description = category.description
-    # return edit
-
 
 @app.delete("/category/{id}", tags=["category"])
 async def delete_category(id : int):
