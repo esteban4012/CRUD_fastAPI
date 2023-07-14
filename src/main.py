@@ -1,12 +1,14 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import JSONResponse
 from models.client import Client
-from models.orders import Orders
+from models.orders import Orders, Orders_entity
 from models.article import Article
 from models.category import Category
 import repository.repository_client
 import repository.repository_category
 import repository.repository_article
 import repository.repository_order
+from repository.repository_order import to_orders_entity,fech_orders
 app = FastAPI()
 
 
@@ -83,14 +85,13 @@ data_orders = {
 
 @app.get("/orders", tags=["orders"])
 async def read_orders():
-    return repository.repository_order.fech_ordenes()
+    return repository.repository_order.fech_orders()
 
 
 @app.post("/orders", tags=["orders"])
-async def create_orders(orderns : Orders):
-    order = data_orders["orders"]
-    order[orderns.id] = orderns
-    return data_orders 
+async def create_orders(order : Orders):
+    repository.repository_order.add_order(to_orders_entity(order))
+    return JSONResponse(status_code=200,content="order create")
 
 
 @app.put("/orders/{id}", tags=["orders"])
