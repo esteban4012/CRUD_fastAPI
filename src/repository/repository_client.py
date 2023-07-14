@@ -25,3 +25,11 @@ def fech_clients():
 def add_client(client: Cliente_entity):
     session.add(client)
     session.commit()
+
+
+def delete_client(id: int):
+    client = session.query(Cliente_entity).get(id)
+    if  client is None:
+        raise Exception(f" client {id=} not does exist")
+    session.delete(client)
+    session.commit()
