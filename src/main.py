@@ -172,13 +172,14 @@ async def edit_article(id : int , article : Article):
 
 
 @app.delete("/article/{id}", tags=["article"])
-async def delete_article(id: int):
-    articles = data_article["article"]
-    if id not in articles:
-        return HTTPException(status_code=404,detail=f"orden with {id=}, does not exist")
+async def delete_article(id : int):
+    try:
+        repository.repository_article.delete_article(id)
     
-    articles.pop(id)
-    return data_article
+    except:
+        return HTTPException(status_code=404, detail="it was not possible to delete the article")
+    
+    return JSONResponse(status_code=200,content="article delete")
 
 
 # CRUD CATEGORY
