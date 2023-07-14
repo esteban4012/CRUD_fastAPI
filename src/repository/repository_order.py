@@ -13,3 +13,7 @@ def fech_orders():
     for entity in entities:
         models.append(entity)
     return models
+
+def add_order(order: Orders_entity):
+    session.add(order)
+    session.commit()
