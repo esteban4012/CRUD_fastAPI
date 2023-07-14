@@ -24,3 +24,27 @@ def delete_order(id: int):
         raise Exception(f"order {id=} not does exist")
     session.delete(order)
     session.commit()
+
+def update_order(id: int, order: Orders):
+    result = session.query(Orders_entity).filter(Orders_entity.id == id).update({Orders_entity.fecha: order.date,
+                                                                                 Orders_entity.id_cliente: order.id_client})
+    if result == 0:
+        raise Exception(f"order {id=} not found")
+    if len(order.date.strip())< 1:
+        raise Exception(f"date can not be emptyd")
+    if order.id_client < 0:
+        raise Exception("id_client is mandatory")
+    session.commit()
+    
+    return to_order(session.query(Orders_entity).get(id))
+
+
+def to_order(order: Orders_entity):
+    return Orders(id=order.id,
+                  date=order.fecha,
+                  id_client= order.id_cliente)
+ 
+
+
+
+
