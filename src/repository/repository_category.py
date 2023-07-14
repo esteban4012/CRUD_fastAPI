@@ -24,3 +24,18 @@ def delete_category(id: int):
         raise Exception(f" category {id=} not does exist")
     session.delete(category)
     session.commit()
+
+def update_category(id: int, category: Category):
+    result = session.query(Category_entity).filter(Category_entity.id == id).update({Category_entity.description: category.description}, synchronize_session=False)
+    
+    if result == 0:
+        raise Exception(f"category {id=} not found")
+    if len(category.description.strip()) < 1:
+        raise Exception("description can not be empty")
+    session.commit()
+    
+    return to_category(session.query(Category_entity).get(id))
+
+    
+def to_category(category: Category_entity):
+    return Category(id=category.id, description=category.description)
