@@ -204,19 +204,21 @@ async def create_category(category : Category):
 
 @app.put("/category/{id}", tags=["category"])
 async def edit_category(id : int, category: Category):
-    categorys = data_category["category"]
-    if id not in categorys:
-        return HTTPException(status_code=404,detail=f"category with {id=}, does not exist")
+    return repository.repository_category.update_category(id,category)
     
-    if category.id < 1:
-        return HTTPException(status_code=404, detail="id is mandatory")
+    # categorys = data_category["category"]
+    # if id not in categorys:
+    #     return HTTPException(status_code=404,detail=f"category with {id=}, does not exist")
     
-    if len(category.description.strip()) < 1:
-        return HTTPException(status_code=404, detail="description can not be empty")
+    # if category.id < 1:
+    #     return HTTPException(status_code=404, detail="id is mandatory")
     
-    edit = categorys[id]
-    edit.description = category.description
-    return edit
+    # if len(category.description.strip()) < 1:
+    #     return HTTPException(status_code=404, detail="description can not be empty")
+    
+    # edit = categorys[id]
+    # edit.description = category.description
+    # return edit
 
 
 @app.delete("/category/{id}", tags=["category"])
