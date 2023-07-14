@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 from models.client import Client
-from models.orders import Orders, Orders_entity
+from models.orders import Orders
 from models.article import Article
 from models.category import Category
 import repository.repository_client
@@ -16,14 +16,6 @@ app = FastAPI()
 
 
 # CRUD CLIENT
-
-data_clients = {
-    "client" : {
-        1 : Client(id=1,name = "esteban", last_name = "agudelo" , sure_name = "hurtado", num_id= 1813644740, addres= "calle 65a" , tel= 3160100915 , email= "esteban@gamil.com"),
-        
-    }   
-}
-
 
 @app.get("/clients", tags=['clients'])
 async def read_clients():
@@ -55,12 +47,6 @@ async def delete_client(id : int):
 
 # CRUD ORDERS
 
-data_orders = {
-    "orders" : {
-        1 : Orders(id = 1 ,date= "2023-07-12", id_client = 1 )
-    }
-}
-
 @app.get("/orders", tags=["orders"])
 async def read_orders():
     return repository.repository_order.fech_orders()
@@ -74,26 +60,7 @@ async def create_orders(order : Orders):
 
 @app.put("/orders/{id}", tags=["orders"])
 async def edit_orders(id : int , ordens : Orders):
-    
-    
-    order = data_orders["orders"]
-    
-    if id not in order:
-        return HTTPException(status_code=404,detail=f"order with {id=}, does not exist")
-    
-    edit = order[id]
-    if ordens.id < 1:
-        return HTTPException(status_code=404, detail="id is mandatory")
-    
-    if len(ordens.date.strip()) < 1:
-        return HTTPException(status_code=404, detail="date can not be emptyd")
-    
-    if ordens.id_client < 1:
-        return HTTPException(status_code=404, detail="id_client is mandatory")
-    
-    edit.date = ordens.date
-    edit.id_client = ordens.id_client
-    return edit
+    return repository.repository_order.update_order(id,ordens)
     
 
 @app.delete("/orders/{id}", tags=["orders"])
@@ -107,13 +74,6 @@ async def delete_order(id: int):
 
 
 # CRUD ARTICLE
-
-
-data_article = {
-    "article" : {
-        1 : Article(id=1,description="comedor",price=1000000,id_category=1)
-    }
-}
 
 @app.get("/article", tags=["article"])
 async def read_article():
@@ -141,12 +101,6 @@ async def delete_article(id : int):
 
 
 # CRUD CATEGORY
-
-data_category = {
-    "category" : {
-        1 : Category(id=1, description="salas")
-}}
-
 
 @app.get("/category", tags=["category"])
 async def read_category():
