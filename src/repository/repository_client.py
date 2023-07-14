@@ -2,7 +2,7 @@ from db import session
 from models.client import Client, Cliente_entity
 
 
-def to_client_model(cliente: Client):
+def to_client_entity(cliente: Client):
     return Cliente_entity(id= cliente.id,
                           nombre=cliente.name, 
                           apellido1=cliente.last_name, 
@@ -22,3 +22,6 @@ def fech_clients():
     return models
 
 
+def add_client(client: Cliente_entity):
+    session.add(client)
+    session.commit()
