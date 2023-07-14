@@ -17,3 +17,10 @@ def fech_category():
 def add_category(category: Category_entity):
     session.add(category)
     session.commit()
+
+def delete_category(id: int):
+    category = session.query(Category_entity).get(id)
+    if  category is None:
+        raise Exception(f" category {id=} not does exist")
+    session.delete(category)
+    session.commit()
