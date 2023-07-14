@@ -19,3 +19,10 @@ def fech_article():
 def add_article(article: Article_entity):
     session.add(article)
     session.commit()
+
+def delete_article(id: int):
+    article = session.query(Article_entity).get(id)
+    if  article is None:
+        raise Exception(f" article {id=} not does exist")
+    session.delete(article)
+    session.commit()
