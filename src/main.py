@@ -10,6 +10,9 @@ import repository.repository_category
 import repository.repository_article
 import repository.repository_order
 from repository.repository_order import to_orders_entity
+from repository.repository_article import to_article_entity
+
+
 app = FastAPI()
 
 
@@ -140,11 +143,9 @@ async def read_article():
 
 
 @app.post("/article", tags=["article"])
-async def create_article(articles : Article):
-    article = data_article["article"]
-    article[articles.id] = articles
-    return data_article
-
+async def create_article(article : Article):
+    repository.repository_article.add_article(to_article_entity(article))
+    return JSONResponse(status_code=200, content= "article create")
 
 @app.put("/article/{id}", tags=["article"])
 async def edit_article(id : int , article : Article):
