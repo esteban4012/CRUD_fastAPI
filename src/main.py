@@ -5,10 +5,11 @@ from models.orders import Orders, Orders_entity
 from models.article import Article
 from models.category import Category
 import repository.repository_client
+from repository.repository_category import to_category_entity
 import repository.repository_category
 import repository.repository_article
 import repository.repository_order
-from repository.repository_order import to_orders_entity,fech_orders
+from repository.repository_order import to_orders_entity
 app = FastAPI()
 
 
@@ -193,9 +194,8 @@ async def read_category():
 
 @app.post("/category", tags=["category"])
 async def create_category(category : Category):
-    categorys = data_category["category"]
-    categorys[category.id] = category
-    return data_category
+    repository.repository_category.add_category(to_category_entity(category))
+    return JSONResponse(status_code=200, content= "category create")
 
 
 @app.put("/category/{id}", tags=["category"])
