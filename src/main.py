@@ -122,11 +122,12 @@ async def edit_orders(id : int , ordens : Orders):
 
 @app.delete("/orders/{id}", tags=["orders"])
 async def delete_order(id: int):
-    order = data_orders["orders"]
-    if id not in order:
-        return HTTPException(status_code=404,detail=f"client with {id=}, does not exist")
-    order.pop(id)
-    return data_orders
+    try:
+        repository.repository_order.delete_order(id)
+    except:
+        return HTTPException(status_code=404, detail="it was not possible to delete the order")
+    
+    return JSONResponse(status_code=200, content= "order delete")
 
 
 # CRUD ARTICLE
