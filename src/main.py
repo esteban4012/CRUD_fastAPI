@@ -220,8 +220,10 @@ async def edit_category(id : int, category: Category):
 
 @app.delete("/category/{id}", tags=["category"])
 async def delete_category(id : int):
-    categorys = data_category["category"]
-    if id not in categorys:
-        return HTTPException(status_code=404,detail=f"orden with {id=}, does not exist")
-    categorys.pop(id)
-    return data_category
+    try:
+        repository.repository_category.delete_category(id)
+    
+    except:
+        return HTTPException(status_code=404, detail="it was not possible to delete the category")
+    
+    return JSONResponse(status_code=200,content="category delete")
