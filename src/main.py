@@ -5,14 +5,13 @@ from models.orders import Orders, Orders_entity
 from models.article import Article
 from models.category import Category
 import repository.repository_client
-from repository.repository_category import to_category_entity
 import repository.repository_category
 import repository.repository_article
 import repository.repository_order
 from repository.repository_order import to_orders_entity
 from repository.repository_article import to_article_entity
 from repository.repository_client import to_client_entity
-
+from repository.repository_category import to_category_entity
 app = FastAPI()
 
 
@@ -69,13 +68,16 @@ async def edit_clients(id : int, client: Client):
     return edit
 
 
-@app.delete("/clients/{id}", tags=['clients'])
-async def delete_client(id: int):
-    client = data_clients["client"]
-    if id not in client:
-        return HTTPException(status_code=404 , detail= f"client with {id=}, does not exist")
-    client.pop(id)
-    return data_clients 
+@app.delete("/clients/{id}", tags=["clients"])
+async def delete_client(id : int):
+    try:
+        repository.repository_client.delete_client(id)
+    
+    except:
+        return HTTPException(status_code=404, detail="it was not possible to delete the client")
+    
+    return JSONResponse(status_code=200,content="client delete")
+
 
 
 # CRUD ORDERS
