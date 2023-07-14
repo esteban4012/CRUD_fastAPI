@@ -11,7 +11,7 @@ import repository.repository_article
 import repository.repository_order
 from repository.repository_order import to_orders_entity
 from repository.repository_article import to_article_entity
-
+from repository.repository_client import to_client_entity
 
 app = FastAPI()
 
@@ -33,9 +33,8 @@ async def read_clients():
 
 @app.post("/clients", tags=['clients'])
 async def create_client(client: Client):
-    clients = data_clients["client"]
-    clients[client.id] = client
-    return data_clients["client"]
+    repository.repository_client.add_client(to_client_entity(client))
+    return JSONResponse(status_code=200, content="client create")
 
 
 @app.put("/clients/{id}", tags=["clients"])
