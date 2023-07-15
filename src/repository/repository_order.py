@@ -41,7 +41,7 @@ def update_order(id: int, order: Orders):
 
 def to_order(order: Orders_entity):
     return Orders(id=order.id,
-                  date=order.fecha.__str__(),
+                  date=order.fecha,
                   id_client= order.id_cliente)
  
 
