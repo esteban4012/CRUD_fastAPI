@@ -6,7 +6,7 @@ url_object = URL.create(
     "postgresql+psycopg2",
     username="postgres",
     password="12345",  
-    host="127.0.0.1",
+    host= "db",
     database="inventory",
 )
 
